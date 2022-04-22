@@ -14,3 +14,6 @@ testEditDistanceElegantDP:
 	rustc --test -o bin/edit_distance_elegant_dp edit_distance_elegant_dp.rs
 	./bin/edit_distance_elegant_dp
 
+testFenwickTreeRangeQueryPointUpdate:
+	rustc --test -o bin/FenwickTreeRangeQueryPointUpdate FenwickTreeRangeQueryPointUpdate.rs
+	./bin/FenwickTreeRangeQueryPointUpdate
