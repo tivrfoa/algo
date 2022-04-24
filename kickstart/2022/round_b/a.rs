@@ -5,68 +5,33 @@ use std::collections::{
 	HashSet,
 	HashMap,
 };
+use std::f64::consts::PI;
 
-
-/*
-
-max = 10_000_000_000
-max / 2 = 5_000_000_000
-
-*/
-fn solve(test_case: usize, memo: &mut HashMap<usize, bool>) -> i32 {
+fn solve(test_case: usize) -> f64 {
 	// println!("Solving test case {}", test_case);
-	let A: usize = get_int();
-	let mut ans = 1; // 1 is a palindrome
+	let tmp: Vec<f64> = read_n_int();
+	let mut r = tmp[0];
+	let A = tmp[1];
+	let B = tmp[2];
 
-	if A == 1 { return ans; }
+	let mut sum: f64 = PI * r * r;
 
-	// for i in 1..A.sqrt().round() as usize + 1 {
-	for i in 2..=A / 2{
-		if A % i == 0 {
-			match memo.get(&i) {
-				Some(v) => {
-					if *v { ans += 1; }
-				},
-				None => {
-					if is_palindromic(i) {
-						memo.insert(i, true);
-						ans += 1;
-					} else {
-						memo.insert(i, false);
-					}
-				}
-			}
-		}
+	loop {
+		r *= A;
+		sum += PI * r * r;
+
+		r /= B;
+		if r.floor() == 0.0 { break; }
+		sum += PI * r * r;
 	}
 
-	if is_palindromic(A) {
-		ans + 1
-	} else {
-		ans
-	}
-}
-
-fn is_palindromic(i: usize) -> bool {
-	let digits: Vec<char> = i.to_string().chars().collect();
-	// eprintln!("i = {}, digits = {:?}", i, digits);
-	let mut l = 0;
-	let mut r = digits.len() - 1;
-	while l < r {
-		if digits[l] != digits[r] {
-			return false;
-		}
-		l += 1;
-		r -= 1;
-	}
-	//eprintln!("palindrome: {}", i);
-	true
+	sum
 }
 
 fn main() {
-	let mut memo: HashMap<usize, bool> = HashMap::new();
 	let T = get_int::<usize>();
 	for t in 1..=T {
-		println!("Case #{}: {}", t, solve(t, &mut memo));
+		println!("Case #{}: {:.6}", t, solve(t));
 	}
 }
 
