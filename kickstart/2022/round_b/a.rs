@@ -9,20 +9,20 @@ use std::f64::consts::PI;
 
 fn solve(test_case: usize) -> f64 {
 	// println!("Solving test case {}", test_case);
-	let tmp: Vec<f64> = read_n_int();
+	let tmp: Vec<usize> = read_n_int();
 	let mut r = tmp[0];
 	let A = tmp[1];
 	let B = tmp[2];
 
-	let mut sum: f64 = PI * r * r;
+	let mut sum: f64 = PI * (r * r) as f64;
 
 	loop {
 		r *= A;
-		sum += PI * r * r;
+		sum += PI * (r * r) as f64;
 
 		r /= B;
-		if r.floor() == 0.0 { break; }
-		sum += PI * r * r;
+		if r == 0 { break; }
+		sum += PI * (r * r) as f64;
 	}
 
 	sum
