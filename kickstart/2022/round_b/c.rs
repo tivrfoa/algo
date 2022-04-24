@@ -27,6 +27,9 @@ fn solve(test_case: usize) -> u32 {
 		if vv[i] != 0 { ok = false; }
 	}
 	if ok { return 0; }
+	if N == 1 {
+		return vv[0].min(D - vv[0] + 1);
+	}
 
 	// let mut min = u32::MAX; // Google version doesn't have this
 	let mut min: u32 = 4294967295;
