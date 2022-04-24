@@ -20,8 +20,10 @@ fn solve(test_case: usize, memo: &mut HashMap<usize, bool>) -> i32 {
 
 	if A == 1 { return ans; }
 
-	// for i in 1..A.sqrt().round() as usize + 1 {
-	for i in 2..=A / 2{
+	let max = if A <= 4444444444 { A / 2 } else { ((A as f64).sqrt().round() as usize) + 1 };
+
+	for i in 2..=max {
+	// for i in 2..=A / 2{
 		if A % i == 0 {
 			match memo.get(&i) {
 				Some(v) => {
@@ -39,7 +41,7 @@ fn solve(test_case: usize, memo: &mut HashMap<usize, bool>) -> i32 {
 		}
 	}
 
-	if is_palindromic(A) {
+	if is_palindromic(A as usize) {
 		ans + 1
 	} else {
 		ans
