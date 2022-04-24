@@ -16,36 +16,35 @@ max / 2 = 5_000_000_000
 fn solve(test_case: usize, memo: &mut HashMap<usize, bool>) -> i32 {
 	// println!("Solving test case {}", test_case);
 	let A: usize = get_int();
-	let mut ans = 1; // 1 is a palindrome
-
-	if A == 1 { return ans; }
-
-	let max = if A <= 4444444444 { A / 2 } else { ((A as f64).sqrt().round() as usize) + 1 };
-
-	for i in 2..=max {
-	// for i in 2..=A / 2{
+	let mut ans = 0;
+	let mut i = 1;
+	while i * i <= A {
 		if A % i == 0 {
-			match memo.get(&i) {
-				Some(v) => {
-					if *v { ans += 1; }
-				},
-				None => {
-					if is_palindromic(i) {
-						memo.insert(i, true);
-						ans += 1;
-					} else {
-						memo.insert(i, false);
+			let mut tmp = vec![i];
+			// this is needed to avoid square roots
+			if i * i < A { // same as if A / i !=  i {
+				tmp.push(A / i);
+			}
+			for v in tmp {
+				match memo.get(&v) {
+					Some(v) => {
+						if *v { ans += 1; }
+					},
+					None => {
+						if is_palindromic(v) {
+							memo.insert(v, true);
+							ans += 1;
+						} else {
+							memo.insert(v, false);
+						}
 					}
 				}
 			}
 		}
+		i += 1;
 	}
 
-	if is_palindromic(A as usize) {
-		ans + 1
-	} else {
-		ans
-	}
+	ans
 }
 
 fn is_palindromic(i: usize) -> bool {
@@ -60,7 +59,7 @@ fn is_palindromic(i: usize) -> bool {
 		l += 1;
 		r -= 1;
 	}
-	//eprintln!("palindrome: {}", i);
+	// eprintln!("palindrome: {}", i);
 	true
 }
 
