@@ -18,23 +18,22 @@ fn solve(test_case: usize) -> i64 {
 		let mut tmp: Vec<i64> = read_n_int();
 		pp[i].append(&mut tmp);
 	}
-	let mut dp: Vec<[i64; 2]> = Vec::with_capacity(N);
-	pp[0].sort();
-	let mut l0 = pp[0][P - 1];
-	let mut l1 = pp[0][P - 1] + (pp[0][P - 1] - pp[0][0]);
+	let mut dp: Vec<[i64; 2]> = Vec::with_capacity(N + 1);
+	let mut l0 = 0;
+	let mut l1 = 0;
 	dp.push([l0, l1]);
 
-	for i in 1..N {
+	for i in 0..N {
 		pp[i].sort();
-		dp.push([(dp[i - 1][0] + (l0 - pp[i][0]).abs() + pp[i][P - 1] - pp[i][0]).min(
-				    dp[i - 1][1] + (l1 - pp[i][0]).abs() + pp[i][P - 1] - pp[i][0]),
-                   (dp[i - 1][0] + (l0 - pp[i][P - 1]).abs() + pp[i][P - 1] - pp[i][0]).min(
-				    dp[i - 1][1] + (l1 - pp[i][P - 1]).abs() + pp[i][P - 1] - pp[i][0])]);
+		dp.push([(dp[i][0] + (l0 - pp[i][0]).abs() + pp[i][P - 1] - pp[i][0]).min(
+				    dp[i][1] + (l1 - pp[i][0]).abs() + pp[i][P - 1] - pp[i][0]),
+                   (dp[i][0] + (l0 - pp[i][P - 1]).abs() + pp[i][P - 1] - pp[i][0]).min(
+				    dp[i][1] + (l1 - pp[i][P - 1]).abs() + pp[i][P - 1] - pp[i][0])]);
 		l0 = pp[i][P - 1];
 		l1 = pp[i][0];
 	}
 
-	dp[N - 1][0].min(dp[N - 1][1])
+	dp[N][0].min(dp[N][1])
 }
 
 fn main() {
